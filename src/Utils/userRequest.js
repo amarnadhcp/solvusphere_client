@@ -6,7 +6,8 @@ const userRequest = axios.create({
 
 userRequest.interceptors.request.use((req) => {
     if (localStorage.getItem("currentUser")) {
-        req.headers.Authorization = "Bearer " + localStorage.getItem("currentUser");
+        console.log(userurl);
+        req.headers.Authorization = localStorage.getItem("currentUser");
     }
     return req; 
 });
