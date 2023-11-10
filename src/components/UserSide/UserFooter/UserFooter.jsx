@@ -3,7 +3,7 @@ import { Typography } from "@material-tailwind/react";
 
 function UserFooter() {
   return (
-    <footer className="flex w-full flex-row flex-wrap items-center justify-center gap-y-3 gap-x-12 border-t border-gray-700 py-6 text-center md:justify-between px-10">
+    <footer className="bg-black flex w-full flex-row flex-wrap items-center justify-center gap-y-3 gap-x-12 border-t border-gray-700 py-6 text-center md:justify-between px-10">
       <Typography color="white" className="font-normal">
         Solvusphere &copy; 2023
       </Typography>

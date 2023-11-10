@@ -5,12 +5,13 @@ import AdBannerSm from "../../components/UserSide/UserHome/AdBannerSm";
 import HeaderTwo from "../../components/UserSide/UserHome/HeaderTwo";
 import HeaderOne from "../../components/UserSide/UserHome/HeaderOne";
 import AdBannerBottom from "../../components/UserSide/UserHome/AdBannerBottom";
+import UserFooter from "../../components/UserSide/UserFooter/UserFooter";
 
 function HomePage() {
   return (
     <div>
       <div className="flex flex-col py-16 gap-3">
-        <HomePageButtons />
+        <HomePageButtons page="home" />
         <div className="flex flex-col mx-10 gap-4">
           <div>
             <HeaderOne />
