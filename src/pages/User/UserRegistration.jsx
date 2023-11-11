@@ -36,7 +36,7 @@ function UserRegistration() {
         </h1>
         <Card className="mx-auto sm:w-90pt rounded-lg px-3 border border-gray-700 bg-gray-900 bg-opacity-40">
           <CardBody className="flex flex-col  md-1:flex-row gap-5 overflow-x-clip items-center">
-          <div>
+            <div className="md:mt-7 w-full" >
               <Input
                 label="Email"
                 name="email"
@@ -47,12 +47,16 @@ function UserRegistration() {
                 value={values.email}
                 error={touched.email && errors.email}
               />
-              {touched.email && errors.email && (
-                <div className="text-red-500 text-sm py-1 ">{errors.email}</div>
-              )}
+              <div
+                className={`${
+                  touched.email && errors.email ? "opacity-100" : "opacity-0"
+                } text-red-500 text-sm py-1`}
+              >
+                {errors.email ? errors.email : "None"}
+              </div>
             </div>
 
-            <div>
+            <div className="md:mt-7 w-full" >  
               <Input
                 label="Name"
                 name="name"
@@ -63,12 +67,14 @@ function UserRegistration() {
                 value={values.name}
                 error={touched.name && errors.name}
               />
-              {touched.name && errors.name && (
-                <div className="text-red-500 text-sm py-1 ">{errors.name}</div>
-              )}
+              <div
+                className={`${
+                  touched.name && errors.name ? "opacity-100" : "opacity-0"
+                } text-red-500 text-sm py-1`}
+              >
+                {errors.name ? errors.name : "None"}
+              </div>
             </div>
-
-           
 
             <div>
               <Button type="button" variant="gradient" color="yellow" fullWidth>
