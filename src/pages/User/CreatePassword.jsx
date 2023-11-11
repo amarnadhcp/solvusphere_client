@@ -1,14 +1,23 @@
-import {
-  Button,
-  Card,
-  CardBody,
-  Input,
-  CardFooter,
-  Typography,
-} from "@material-tailwind/react";
 import React from "react";
+import { useFormik } from "formik";
+import { Button, Card, CardBody, Input, CardFooter, Typography } from "@material-tailwind/react";
+import { PasswordSchema } from "../../validation/Yup";
 
 function CreatePassword() {
+  const initialValues = {
+    password: "",
+    confirmPassword: "",
+  };
+
+  const { values, errors, touched, handleBlur, handleSubmit, handleChange } = useFormik({
+    initialValues: initialValues,
+    validationSchema: PasswordSchema,
+    onSubmit: async (values) => {
+      // Backend call
+      console.log("everything is over");
+    },
+  });
+
   return (
     <div>
       <div className="bg-black opacity-90 flex flex-col justify-center align-middle items-center min-h-screen w-full md:px-0 px-5">
@@ -23,37 +32,37 @@ function CreatePassword() {
                 name="password"
                 size="lg"
                 color="blue-gray"
-                //   onChange={handleChange}
-                //   onBlur={handleBlur}
-                //   value={values.email}
-                //   error={touched.email && errors.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.password}
+                error={touched.password && errors.password}
               />
-              {/* {touched.email && errors.email && (
-              <div className="text-red-500 text-sm py-1 ">{errors.email}</div>
-            )} */}
+              {touched.password && errors.password && (
+                <div className="text-red-500 text-sm py-1 ">{errors.password}</div>
+              )}
             </div>
 
             <div>
               <Input
                 label="Confirm Password"
                 type="password"
-                name="password"
+                name="confirmPassword" 
                 color="blue-gray"
                 size="lg"
                 className="text-white"
-                // onChange={handleChange}
-                // onBlur={handleBlur}
-                // value={values.password}
-                // error={touched.password && errors.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.confirmPassword} 
+                error={touched.confirmPassword && errors.confirmPassword}
               />
-              {/* {touched.password && errors.password && (
-            <div className="text-red-500 text-sm py-1 ">{errors.password}</div>
-          )} */}
+              {touched.confirmPassword && errors.confirmPassword && (
+                <div className="text-red-500 text-sm py-1 ">{errors.confirmPassword}</div>
+              )}
             </div>
           </CardBody>
 
           <CardFooter className="">
-            <Button type="button" variant="gradient" color="yellow" fullWidth>
+            <Button onClick={handleSubmit} type="submit" variant="gradient" color="yellow" fullWidth>
               Create
             </Button>
           </CardFooter>
