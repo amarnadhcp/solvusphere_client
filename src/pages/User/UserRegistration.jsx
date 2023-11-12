@@ -5,17 +5,43 @@ import {
   Input,
   Button,
 } from "@material-tailwind/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { RegisterSchema } from "../../validation/Yup";
 import BlurredCircle from "../../components/UiElements/BlurredCircle";
 import {} from "postcss";
+import { useMutation } from "@tanstack/react-query";
+import userRequest from "../../Utils/userRequest";
 
 function UserRegistration() {
+  const [RegError, setRegError] = useState(null);
+
   const initialValues = {
     email: "",
-    name: "",
+    username: "",
   };
+
+  const mutation = useMutation({
+    mutationFn: (data) => {
+      return userRequest.post("/register", data);
+    },
+    // Handle the mutation success
+    onSuccess: (data) => {
+      console.log("Login successful", data.data.message);
+      console.log(values.username);
+      localStorage.setItem("solvo-username",values.username)
+      localStorage.setItem("solvo-email",values.email)
+    },
+    onError: (error) => {
+      console.error("Login error", error);
+      if (error.response && error.response.status === 409) {
+        setRegError("Your aready registered with this email");
+      } else {
+        setRegError("An error occurred during my login");
+      }
+    },
+  });
+
 
   const { values, errors, touched, handleBlur, handleSubmit, handleChange } =
     useFormik({
@@ -23,7 +49,13 @@ function UserRegistration() {
       validationSchema: RegisterSchema,
       onSubmit: async (values) => {
         // Backend call
-        console.log("everything is over");
+        if (!mutation.isLoading) {
+          try {
+            await mutation.mutateAsync(values);
+          } catch (error) {
+            console.error( error.response.data.warning);
+          }
+        }
       },
     });
 
@@ -59,25 +91,25 @@ function UserRegistration() {
             <div className="md:mt-7 w-full" >  
               <Input
                 label="Name"
-                name="name"
+                name="username"
                 size="lg"
                 color="blue-gray"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.name}
-                error={touched.name && errors.name}
+                value={values.username}
+                error={touched.username && errors.username}
               />
               <div
                 className={`${
-                  touched.name && errors.name ? "opacity-100" : "opacity-0"
+                  touched.username && errors.username ? "opacity-100" : "opacity-0"
                 } text-red-500 text-sm py-1`}
               >
-                {errors.name ? errors.name : "None"}
+                {errors.username ? errors.username : "None"}
               </div>
             </div>
 
             <div>
-              <Button type="button" variant="gradient" color="yellow" fullWidth>
+              <Button onClick={handleSubmit} disabled={mutation.isLoading} type="button" variant="gradient" color="yellow" fullWidth>
                 Next
               </Button>
             </div>
